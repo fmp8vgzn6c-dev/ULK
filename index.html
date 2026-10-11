@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knauf Email Signature Generator</title>
+  <style>
+    :root {
+      --knauf-cyan: #0099DE;
+      --knauf-logo-cyan: #00A0E6;
+      --knauf-blue: #003778;
+      --knauf-grey: #CFD7D9;
+      --page: #F4F8FB;
+      --card: #FFFFFF;
+      --border: #DCE6EE;
+      --text: #0F1A2A;
+      --muted: #5B6770;
+      --yellow: #FFD25C;
+      --green: #87C15F;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--page);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 12px 36px rgba(15, 26, 42, 0.07);
+      margin-bottom: 24px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .knauf-logo {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    .divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 7px 13px;
+      background: var(--yellow);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .tool-label {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 7px 13px;
+      background: var(--page);
+      color: var(--knauf-blue);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.04em;
+      color: var(--knauf-blue);
+      line-height: 1.05;
+    }
+
+    .lead {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 760px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(380px, 0.9fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 12px 34px rgba(15, 26, 42, 0.06);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: var(--knauf-blue);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--text);
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mock-box {
+      background: #E5F3FB;
+      border: 1px solid #B3DCF3;
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .mock-box strong {
+      color: var(--knauf-blue);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    label span {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      min-height: 44px;
+      padding: 10px 13px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--knauf-cyan);
+      box-shadow: 0 0 0 4px rgba(0, 153, 222, 0.12);
+    }
+
+    .address-box {
+      background: #F8FAFC;
+      border-radius: 22px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+      font-weight: 700;
+    }
+
+    .toggle input {
+      width: 20px;
+      height: 20px;
+      min-height: 20px;
+      accent-color: var(--knauf-blue);
+    }
+
+    .button-row {
+      display: grid;
+      gap: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      min-height: 46px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(15, 26, 42, 0.12);
+    }
+
+    .primary {
+      background: var(--knauf-blue);
+      color: #fff;
+    }
+
+    .secondary {
+      background: #fff;
+      color: var(--knauf-blue);
+      border: 1px solid var(--border);
+    }
+
+    .mock-button {
+      background: var(--knauf-blue);
+      color: #fff;
+      align-self: end;
+    }
+
+    .reset-button {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+      margin-top: 18px;
+    }
+
+    .preview-wrap {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 16px;
+      overflow: auto;
+    }
+
+    .signature-preview {
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px;
+      min-width: 540px;
+      box-shadow: 0 8px 20px rgba(15, 26, 42, 0.06);
+    }
+
+    .signature-head {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding-bottom: 16px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .signature-head img {
+      height: 34px;
+      width: auto;
+      display: block;
+      border: 0;
+    }
+
+    .signature-head-line {
+      width: 1px;
+      align-self: stretch;
+      background: var(--border);
+    }
+
+    .sig-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--knauf-blue);
+      margin-bottom: 2px;
+    }
+
+    .sig-position {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .sig-muted {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status {
+      display: none;
+      margin-top: 14px;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .status.success {
+      display: block;
+      background: #E7F6EC;
+      color: #14532D;
+      border: 1px solid #BBF7D0;
+    }
+
+    .status.warning {
+      display: block;
+      background: #FFF7ED;
+      color: #9A3412;
+      border: 1px solid #FED7AA;
+    }
+
+    .help {
+      margin-top: 18px;
+      background: #E5F3FB;
+      border: 1px solid #B3DCF3;
+      border-radius: 22px;
+      padding: 16px;
+      color: var(--knauf-blue);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .help ol {
+      margin: 8px 0 0;
+      padding-left: 22px;
+    }
+
+    .note {
+      margin-top: 14px;
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 16px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .two,
+      .three {
+        grid-template-columns: 1fr;
+      }
+
+      .signature-preview {
+        min-width: 0;
+      }
+
+      .signature-head {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div class="brand-row">
+        <img id="headerLogo" class="knauf-logo" alt="Knauf" />
+        <div class="divider"></div>
+        <div class="badge">Build on Us.</div>
+        <div class="divider"></div>
+        <div class="tool-label">Work email signature builder</div>
+      </div>
+
+      <h1>Create a Knauf-style email signature</h1>
+      <p class="lead">
+        Enter each line, preview it instantly, then copy a clean Knauf-branded signature into Outlook,
+        Gmail, or another mail client.
+      </p>
+
+      <button class="reset-button" type="button" id="resetBtn">Reset form</button>
+    </header>
+
+    <section class="layout">
+      <section class="card">
+        <div class="section-title">
+          <div class="icon">✎</div>
+          <div>
+            <h2>Signature details</h2>
+            <p>Edit every visible line of the signature.</p>
+          </div>
+        </div>
+
+        <div class="mock-box">
+          <strong>Mock data upload</strong>
+          <div class="grid two" style="margin-top: 12px;">
+            <label>
+              <span>Choose mock profile</span>
+              <select id="mockSelect">
+                <option value="sales">Sales manager mock data</option>
+                <option value="hr">HR specialist mock data</option>
+                <option value="it">IT support mock data</option>
+              </select>
+            </label>
+            <button type="button" class="mock-button" id="loadMockBtn">Upload mock data</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <label>
+            <span>Full name</span>
+            <input id="fullName" type="text" />
+          </label>
+
+          <label>
+            <span>Position / job title</span>
+            <input id="position" type="text" />
+          </label>
+
+          <label>
+            <span>Department / team</span>
+            <input id="department" type="text" />
+          </label>
+
+          <label>
+            <span>Short job description / responsibility line</span>
+            <input id="jobDescription" type="text" />
+          </label>
+
+          <label>
+            <span>Company</span>
+            <input id="company" type="text" />
+          </label>
+
+          <div class="grid two">
+            <label>
+              <span>Telephone number</span>
+              <input id="phone" type="text" />
+            </label>
+
+            <label>
+              <span>Mobile number</span>
+              <input id="mobile" type="text" />
+            </label>
+          </div>
+
+          <div class="grid two">
+            <label>
+              <span>Email address</span>
+              <input id="email" type="email" />
+            </label>
+
+            <label>
+              <span>Website</span>
+              <input id="website" type="text" />
+            </label>
+          </div>
+
+          <div class="address-box">
+            <strong>Address and extra lines</strong>
+            <div class="grid" style="margin-top: 12px;">
+              <label>
+                <span>Address line 1</span>
+                <input id="addressLine1" type="text" />
+              </label>
+
+              <label>
+                <span>Address line 2</span>
+                <input id="addressLine2" type="text" />
+              </label>
+
+              <label>
+                <span>Custom line 1</span>
+                <input id="customLine1" type="text" />
+              </label>
+
+              <label>
+                <span>Custom line 2</span>
+                <input id="customLine2" type="text" />
+              </label>
+            </div>
+          </div>
+
+          <label>
+            <span>Disclaimer</span>
+            <textarea id="disclaimer"></textarea>
+          </label>
+
+          <div class="grid two">
+            <label>
+              <span>Main colour</span>
+              <input id="brandColor" type="color" />
+            </label>
+
+            <label>
+              <span>Separator colour</span>
+              <input id="accentColor" type="color" />
+            </label>
+          </div>
+
+          <div class="grid three">
+            <label class="toggle">
+              Show address
+              <input id="includeAddress" type="checkbox" />
+            </label>
+
+            <label class="toggle">
+              Show job description
+              <input id="includeJobDescription" type="checkbox" />
+            </label>
+
+            <label class="toggle">
+              Show disclaimer
+              <input id="includeDisclaimer" type="checkbox" />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <div class="icon">👁</div>
+          <div>
+            <h2>Live preview and export</h2>
+            <p>Copy the signature in the format you need.</p>
+          </div>
+        </div>
+
+        <div class="preview-wrap">
+          <div class="signature-preview" id="signaturePreview"></div>
+        </div>
+
+        <div class="button-row">
+          <button type="button" class="primary" id="copyRichBtn">Copy signature for email client</button>
+
+          <div class="grid two">
+            <button type="button" class="secondary" id="copyHtmlBtn">Copy HTML</button>
+            <button type="button" class="secondary" id="copyTextBtn">Copy plain text</button>
+          </div>
+        </div>
+
+        <div class="status" id="statusBox"></div>
+
+        <div class="help">
+          <strong>How to use</strong>
+          <ol>
+            <li>Enter or remove the lines you need.</li>
+            <li>Check the live preview.</li>
+            <li>Click <strong>Copy signature for email client</strong>.</li>
+            <li>Paste it into your email signature settings.</li>
+          </ol>
+        </div>
+
+        <div class="note">
+          If your email client removes the logo, try <strong>Copy HTML</strong> and paste it into an HTML-capable signature editor.
+          Some corporate mail clients block pasted images by policy.
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const KNAUF_LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.4646 143.4898" role="img" aria-label="Knauf" focusable="false"><path fill="#00A0E6" d="M197.5438,118.3649c18.5564,0,26.0413-5.926,28.0685-20.4293l9.3562-66.746h-19.0242l-9.3562,67.3698c-0.4678,3.5868-2.6509,5.1463-7.0171,5.1463s-6.0815-1.5595-5.6137-5.1463l9.5121-67.3698h-19.0242l-9.3562,66.746C173.0618,112.5948,179.6112,118.3649,197.5438,118.3649z M141.5628,87.0193l11.2274-41.4823h1.7153l-3.1187,41.4823H141.5628z M115.2096,116.3376h18.5564l4.0543-15.127h12.4749l-1.0916,15.127h18.7123l3.5865-85.1479h-31.3432L115.2096,116.3376z M57.5132,116.3376H75.134l5.9256-41.9501h1.0916l10.2918,41.9501h17.9326l12.0071-85.1479h-17.6208l-6.2374,44.1334h-1.0916l-9.9799-44.1334H69.5203L57.5132,116.3376z M0,116.3376h19.0242l5.3018-37.2717h1.8712l7.1731,37.2717h19.3361L43.974,71.1125L63.31,31.1897H44.1299L27.6007,65.1865h-1.4034L35.3975,0H16.3733L0,116.3376z M247.7308,143.4898l9.5365-67.6988h18.4005l2.0272-14.3473h-18.4005l2.1831-15.9067h19.9598l2.0272-14.3473h-38.984l-15.7739,112.3001H247.7308z"/></svg>`;
+
+    const logoDataUri = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(KNAUF_LOGO_SVG)));
+
+    document.getElementById("headerLogo").src = logoDataUri;
+
+    const DEFAULT_DATA = {
+      fullName: "Firstname Lastname",
+      position: "Job Title / Position",
+      department: "Department / Team",
+      company: "Knauf",
+      jobDescription: "Short job description or responsibility line",
+      phone: "+48 000 000 000",
+      mobile: "",
+      email: "firstname.lastname@knauf.com",
+      website: "www.knauf.com/pl-PL",
+      addressLine1: "Street and number",
+      addressLine2: "Postal code, City, Country",
+      customLine1: "",
+      customLine2: "",
+      disclaimer: "This email and any attachments may contain confidential information intended only for the recipient.",
+      brandColor: "#003778",
+      accentColor: "#CFD7D9",
+      includeDisclaimer: false,
+      includeAddress: true,
+      includeJobDescription: true
+    };
+
+    const MOCK_SIGNATURES = {
+      sales: {
+        fullName: "Anna Kowalska",
+        position: "Sales Manager",
+        department: "Commercial Department",
+        company: "Knauf Sp. z o.o.",
+        jobDescription: "Sales development, key account support and customer relations",
+        phone: "+48 22 000 00 11",
+        mobile: "+48 600 000 111",
+        email: "anna.kowalska@knauf.com",
+        website: "www.knauf.com/pl-PL",
+        addressLine1: "ul. Przykładowa 10",
+        addressLine2: "00-001 Warszawa, Poland",
+        customLine1: "Office hours: Mon–Fri, 08:00–16:00",
+        customLine2: "",
+        disclaimer: "This email and any attachments may contain confidential information intended only for the recipient.",
+        brandColor: "#003778",
+        accentColor: "#CFD7D9",
+        includeDisclaimer: true,
+        includeAddress: true,
+        includeJobDescription: true
+      },
+      hr: {
+        fullName: "Michał Nowak",
+        position: "HR Specialist",
+        department: "People & Culture",
+        company: "Knauf Sp. z o.o.",
+        jobDescription: "Recruitment, onboarding and employee support",
+        phone: "+48 22 000 00 22",
+        mobile: "",
+        email: "michal.nowak@knauf.com",
+        website: "www.knauf.com/pl-PL",
+        addressLine1: "ul. Firmowa 25",
+        addressLine2: "30-001 Kraków, Poland",
+        customLine1: "Please book meetings in advance.",
+        customLine2: "",
+        disclaimer: "This message may contain personal or confidential information. If you received it by mistake, please delete it and notify the sender.",
+        brandColor: "#003778",
+        accentColor: "#CFD7D9",
+        includeDisclaimer: true,
+        includeAddress: true,
+        includeJobDescription: true
+      },
+      it: {
+        fullName: "Julia Zielińska",
+        position: "IT Support Coordinator",
+        department: "IT Services",
+        company: "Knauf Sp. z o.o.",
+        jobDescription: "Workplace tools, access requests and service desk coordination",
+        phone: "+48 22 000 00 33",
+        mobile: "+48 700 000 333",
+        email: "julia.zielinska@knauf.com",
+        website: "www.knauf.com/pl-PL",
+        addressLine1: "Service Desk, Building B",
+        addressLine2: "00-001 Warszawa, Poland",
+        customLine1: "For urgent issues, create a ticket in the Service Desk portal.",
+        customLine2: "Ticket response time depends on priority.",
+        disclaimer: "This email may include internal technical information. Do not forward it outside the organisation unless authorised.",
+        brandColor: "#003778",
+        accentColor: "#CFD7D9",
+        includeDisclaimer: true,
+        includeAddress: true,
+        includeJobDescription: true
+      }
+    };
+
+    const fields = [
+      "fullName",
+      "position",
+      "department",
+      "company",
+      "jobDescription",
+      "phone",
+      "mobile",
+      "email",
+      "website",
+      "addressLine1",
+      "addressLine2",
+      "customLine1",
+      "customLine2",
+      "disclaimer",
+      "brandColor",
+      "accentColor",
+      "includeDisclaimer",
+      "includeAddress",
+      "includeJobDescription"
+    ];
+
+    let form = { ...DEFAULT_DATA };
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function cleanWebsite(value) {
+      return String(value || "").replace(/^https?:\/\//, "");
+    }
+
+    function setStatus(type, message) {
+      const box = document.getElementById("statusBox");
+      box.className = "status " + type;
+      box.textContent = message;
+    }
+
+    function clearStatus() {
+      const box = document.getElementById("statusBox");
+      box.className = "status";
+      box.textContent = "";
+    }
+
+    function collectForm() {
+      fields.forEach((field) => {
+        const element = document.getElementById(field);
+        if (!element) return;
+
+        if (element.type === "checkbox") {
+          form[field] = element.checked;
+        } else {
+          form[field] = element.value;
+        }
+      });
+    }
+
+    function fillForm(data) {
+      form = { ...data };
+
+      fields.forEach((field) => {
+        const element = document.getElementById(field);
+        if (!element) return;
+
+        if (element.type === "checkbox") {
+          element.checked = Boolean(form[field]);
+        } else {
+          element.value = form[field] || "";
+        }
+      });
+
+      renderPreview();
+    }
+
+    function buildDetailsHtml() {
+      const contactParts = [];
+
+      if (form.phone) contactParts.push("T: " + escapeHtml(form.phone));
+      if (form.mobile) contactParts.push("M: " + escapeHtml(form.mobile));
+
+      if (form.email) {
+        contactParts.push(
+          `<a href="mailto:${escapeHtml(form.email)}" style="color:${escapeHtml(form.brandColor)}; text-decoration:none;">${escapeHtml(form.email)}</a>`
+        );
+      }
+
+      if (form.website) {
+        const website = cleanWebsite(form.website);
+        contactParts.push(
+          `<a href="https://${escapeHtml(website)}" style="color:${escapeHtml(form.brandColor)}; text-decoration:none;">${escapeHtml(form.website)}</a>`
+        );
+      }
+
+      const addressLines = [form.addressLine1, form.addressLine2].filter(Boolean);
+      const customLines = [form.customLine1, form.customLine2].filter(Boolean);
+
+      return `
+        <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; color:#1f2937; line-height:1.35; max-width:620px;">
+          <tr>
+            <td style="padding:0 0 10px 0;">
+              <div style="font-size:14px; font-weight:700; color:${escapeHtml(form.brandColor)};">${escapeHtml(form.company)}</div>
+              ${
+                contactParts.length
+                  ? `<div style="font-size:13px; color:#374151; margin-top:4px;">${contactParts.join(" &nbsp;|&nbsp; ")}</div>`
+                  : ""
+              }
+              ${
+                form.includeAddress && addressLines.length
+                  ? `<div style="font-size:12px; color:#5B6770; margin-top:5px;">${addressLines.map(escapeHtml).join("<br />")}</div>`
+                  : ""
+              }
+              ${
+                customLines.length
+                  ? `<div style="font-size:12px; color:#5B6770; margin-top:6px;">${customLines.map(escapeHtml).join("<br />")}</div>`
+                  : ""
+              }
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0 0 0;">
+              <div style="height:1px; background:${escapeHtml(form.accentColor)}; width:100%; max-width:560px;"></div>
+            </td>
+          </tr>
+          ${
+            form.includeDisclaimer && form.disclaimer
+              ? `<tr>
+                  <td style="padding:10px 0 0 0;">
+                    <div style="font-size:10.5px; color:#8a96a3; max-width:560px;">${escapeHtml(form.disclaimer)}</div>
+                  </td>
+                </tr>`
+              : ""
+          }
+        </table>
+      `.trim();
+    }
+
+    function buildSignatureHtml() {
+      return `
+        <div style="background:#FFFFFF; font-family:Arial, Helvetica, sans-serif; color:#0F1A2A;">
+          <table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial, Helvetica, sans-serif; color:#0F1A2A; max-width:650px;">
+            <tr>
+              <td style="padding:0 0 16px 0;">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="vertical-align:middle; padding:0 18px 0 0;">
+                      <img src="${logoDataUri}" alt="Knauf" style="height:34px; width:auto; display:block; border:0;" />
+                    </td>
+                    <td style="vertical-align:middle; width:1px; background:#DCE6EE;"></td>
+                    <td style="vertical-align:middle; padding:0 0 0 18px;">
+                      <div style="font-size:18px; font-weight:700; color:#003778; margin-bottom:2px;">${escapeHtml(form.fullName)}</div>
+                      <div style="font-size:14px; font-weight:700; color:#0F1A2A;">${escapeHtml(form.position)}</div>
+                      ${form.department ? `<div style="font-size:13px; color:#5B6770;">${escapeHtml(form.department)}</div>` : ""}
+                      ${
+                        form.includeJobDescription && form.jobDescription
+                          ? `<div style="font-size:13px; color:#5B6770; margin-top:6px;">${escapeHtml(form.jobDescription)}</div>`
+                          : ""
+                      }
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0;">
+                ${buildDetailsHtml()}
+              </td>
+            </tr>
+          </table>
+        </div>
+      `.trim();
+    }
+
+    function buildPlainText() {
+      return [
+        form.fullName,
+        form.position,
+        form.department,
+        form.includeJobDescription ? form.jobDescription : "",
+        form.company,
+        form.phone ? "T: " + form.phone : "",
+        form.mobile ? "M: " + form.mobile : "",
+        form.email,
+        form.website,
+        form.includeAddress ? form.addressLine1 : "",
+        form.includeAddress ? form.addressLine2 : "",
+        form.customLine1,
+        form.customLine2,
+        form.includeDisclaimer ? form.disclaimer : ""
+      ].filter(Boolean).join("\n");
+    }
+
+    function renderPreview() {
+      collectForm();
+
+      const preview = document.getElementById("signaturePreview");
+      preview.innerHTML = buildSignatureHtml();
+    }
+
+    async function copyText(value) {
+      try {
+        await navigator.clipboard.writeText(value);
+        return true;
+      } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = value;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const success = document.execCommand("copy");
+        document.body.removeChild(textarea);
+        return success;
+      }
+    }
+
+    async function copyRichSignature() {
+      renderPreview();
+
+      const html = buildSignatureHtml();
+      const text = buildPlainText();
+
+      try {
+        if (navigator.clipboard && window.ClipboardItem) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "text/html": new Blob([html], { type: "text/html" }),
+              "text/plain": new Blob([text], { type: "text/plain" })
+            })
+          ]);
+
+          setStatus("success", "Signature copied with the Knauf logo included. Paste it into your email signature editor.");
+          return;
+        }
+      } catch {
+        /* Continue to fallback below. */
+      }
+
+      const temporary = document.createElement("div");
+      temporary.innerHTML = html;
+      temporary.style.position = "fixed";
+      temporary.style.left = "-9999px";
+      temporary.style.top = "0";
+      temporary.style.background = "#FFFFFF";
+      document.body.appendChild(temporary);
+
+      const range = document.createRange();
+      range.selectNodeContents(temporary);
+
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      const success = document.execCommand("copy");
+
+      selection.removeAllRanges();
+      document.body.removeChild(temporary);
+
+      if (success) {
+        setStatus("success", "Signature copied. Paste it into your email signature editor.");
+      } else {
+        setStatus("warning", "Automatic copy was blocked. Select the preview manually and press Ctrl+C / Cmd+C.");
+      }
+    }
+
+    document.getElementById("copyRichBtn").addEventListener("click", copyRichSignature);
+
+    document.getElementById("copyHtmlBtn").addEventListener("click", async () => {
+      renderPreview();
+      const success = await copyText(buildSignatureHtml());
+
+      if (success) {
+        setStatus("success", "HTML copied. Use this if your email client supports HTML signatures.");
+      } else {
+        setStatus("warning", "Copy failed. Select the preview manually and press Ctrl+C / Cmd+C.");
+      }
+    });
+
+    document.getElementById("copyTextBtn").addEventListener("click", async () => {
+      renderPreview();
+      const success = await copyText(buildPlainText());
+
+      if (success) {
+        setStatus("success", "Plain text copied.");
+      } else {
+        setStatus("warning", "Copy failed. Select the text manually and press Ctrl+C / Cmd+C.");
+      }
+    });
+
+    document.getElementById("loadMockBtn").addEventListener("click", () => {
+      const selected = document.getElementById("mockSelect").value;
+      fillForm(MOCK_SIGNATURES[selected]);
+      setStatus("success", "Mock data uploaded. You can edit any field before copying the signature.");
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      fillForm(DEFAULT_DATA);
+      clearStatus();
+    });
+
+    fields.forEach((field) => {
+      const element = document.getElementById(field);
+      if (!element) return;
+
+      element.addEventListener("input", () => {
+        clearStatus();
+        renderPreview();
+      });
+
+      element.addEventListener("change", () => {
+        clearStatus();
+        renderPreview();
+      });
+    });
+
+    fillForm(DEFAULT_DATA);
+  </script>
+</body>
+</html>
